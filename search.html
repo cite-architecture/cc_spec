@@ -64,16 +64,32 @@
 </div>
 
         <div id="content">
-            <h1 id="the-cite-collection-services-protocol-version-0-1">The CITE Collection Services protocol, version 0.1</h1>
-<p><strong>Content</strong>:  This document defines version 0.1 of the CITE Collection Services protocol.</p>
-<p><strong>Editors</strong>:  Christopher Blackwell and Neel Smith, Center for Hellenic Studies Technical Working Group leads.</p>
-<p><strong>Date</strong>:  April, 2015.</p>
-<p><strong>License</strong>:  This specification is available under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License, <a href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US">http://creativecommons.org/licenses/by-sa/4.0/deed.en_US</a>.</p>
-<h2 id="content">Content</h2>
-<p>TBA</p>
+            <h2>Search results for "<span id="search-q"></span>"</h2>
+<ul id="search-results"></ul>
+<script type="text/javascript" src="lunr-index.js"></script>
+<script type="text/javascript">
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
+    $(function() {
+        var q = getParameterByName('q'), 
+            ul = $('#search-results').empty(),
+            results = index.search(q);
 
-
+        $('#search-q').text(q);
+        if (results.length > 0) {
+            for (var i = 0; i < results.length; i++) {
+                ul.append($('<li><a href="' + results[i].ref + '">' + documentTitles[results[i].ref] + '</a></li>'));
+            }
+        } else {
+            ul.append($('<li class="no-results">No results found</li>'));
+        }
+    })
+</script>
 
         </div>
         <footer id="footer">
