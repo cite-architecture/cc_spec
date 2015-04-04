@@ -61,6 +61,21 @@
             
         </li>
     
+        <li>
+            <a href="specification.html#replies">Replies</a>
+            
+        </li>
+    
+        <li>
+            <a href="specification.html#individual-replies">Individual Replies</a>
+            
+        </li>
+    
+        <li>
+            <a href="specification.html#links">Links</a>
+            
+        </li>
+    
 </ol>
 
             
@@ -102,7 +117,7 @@
 <p>All CITE Services requests include a URL parameter named <code>request</code>. The value of this parameter must be the name of one the nine requests, <code>GetCapabilities</code>, <code>GetCollectionSize</code>,  <code>GetObject</code>, <code>GetFirst</code>, <code>GetLast</code>, <code>GetPrev</code>,  <code>GetPrev</code></p>
 <h3 id="getcapabilities">GetCapabilities</h3>
 <p><strong>Purpose</strong>: The <code>GetCapabilities</code> request returns a reply that defines a set of Collections known to the server and identifies the properties shared by members of each set.</p>
-<p><strong>Request syntax and semantics</strong>:  No parameters other than the <code>request</code> parameter are required.</p>
+<p><strong>Request syntax and semantics</strong>:  No parameters other than the <code>request</code> parameter are required.  </p>
 <table>
 <thead>
 <tr>
@@ -131,6 +146,26 @@
 <li><code>GetObjectPlus</code>: returns a concatenation of the <code>GetObject</code> and <code>GetPrevNextUrn</code> requests.   If the collection is not ordered, the previous and next URN values will be null.</li>
 </ol>
 <p>All requests other than <code>GetCapabilities</code> further require a parameter named <code>urn</code>.  The value of this parameter must be a valid CITE URN value, as defined in the <a href="http://cite-architecture.github.io/citeurn_spec/">CITE URN specification</a>.</p>
+<h2 id="replies">Replies</h2>
+<h2 id="individual-replies">Individual Replies</h2>
+<p>While the Relax NG schema for each request defines and can be used to enforce a number of the syntactic requirements of CITE Collection Services, there are further requirements that cannont be readily defined in a schema language.  These are specified for each request in the following sections.</p>
+<h3 id="getcapabilities">GetCapabilities</h3>
+<p>The <code>collectionService</code> includes one or more <code>citeCollections</code>; it may optionally include CITE Extensions.</p>
+<h4 id="extensions-optional-">Extensions (optional)</h4>
+<p>The optional <code>extensions</code> element has two parts:  one or more <code>rdfnamespace</code> elements, followed by one or more <code>extension</code> elements. An extension classifies an object as belonging to a particular type, identified by the extension&#39;s <code>rdfType</code> attribute.  The <code>rdfnamespace</code> element defines associations of abbreviations with full URIs.  Any abbreviation defined in this section may be used in the <code>rdfnamespace</code> attribute of an extension:  it is an error if an extension&#39;s <code>rdfnamespace</code> value uses an abbreviation not defined by an <code>rdfnamespace</code> element.</p>
+<p>The <code>extension</code> element contains a list of one or more <code>request</code> elements.  The <code>name</code> attribute defines a request name supported by this extension.  The <code>extendedCitation</code> attribution of the <code>extension</code> element has a boolean value indicating whether, in addition to defining type-specific requests, the extension defines an extended citation scheme appended to objects references with the <code>@</code>  character.  The <code>abbr</code> and <code>uri</code> attributes define a mapping of abbreviation to full URI value.  The <code>abbr</code> value may be used to identify extensions applied to individual collections.</p>
+<h4 id="cite-collections-required-content">CITE Collections: required content</h4>
+<p>Each <code>citeCollection</code> has three attributes.  The <code>urn</code> is the CITE URN identifier for the collection; the <code>canonicalId</code> and <code>label</code> attributes pair machine-actionable unique object  identifiers with human-readable labels.  The value of the <code>canonicalId</code> attribute must be the name of a property of type <code>citeurn</code>.  The value of the <code>label</code> property must be the name of a second property of any type, normally text.</p>
+<p>The <code>namespaceMapping</code> elements defines the abbreviation for the naming authorities used in the collection&#39;s URN.  </p>
+<p>One or more <code>source</code> elements define data sources.  As of version @cc_spec_version@, the only allowed value for the <code>type</code> attribute is <code>file</code>;  the meaning of the <code>value</code> attribute is undefined, but may be used to provide access to data in local or remote file systems.</p>
+<p>At least two <code>citeProperty</code> elements define the collection&#39;s shared properties.  One property must be of type <code>citeurn</code>, and must be named in the Collection&#39;s <code>canonicalId</code> attribute;  at least one further property of any type must be included and named in the Collection&#39;s <code>label</code> attribute.</p>
+<h4 id="cite-collections-optional-content">CITE Collections: optional content</h4>
+<p>Collections may optionally include a list of <strong>extensions</strong> that apply to this collection. The extension is identified in the <code>abbr</code> attribute of the <code>extendedBy</code> element with a value defined in the CollectionService&#39;s  <code>extensions</code> section.</p>
+<p>A <code>metadata</code> element allows inclusion of <strong>Dublin Core</strong> elements for title, creators, coverage, description and rights.</p>
+<p>A collection is classified as an <strong>ordered collection</strong> (and therefore capable of responding to the requests applying specifically to ordering of objects) by the <code>orderedBy</code> element.  The value of its <code>property</code> attribute must be the name of a property in the collection&#39;s list with type <code>number</code>.</p>
+<h3 id="reply-schemas">Reply schemas</h3>
+<p>The release version of this specification will be packaged together with Relax NG schemas for each reply.  The current drafts can be found in the <code>cite</code> library&#39;s github repository at <a href="https://github.com/cite-architecture/cite">https://github.com/cite-architecture/cite</a>.</p>
+<h2 id="links">Links</h2>
 
 
 

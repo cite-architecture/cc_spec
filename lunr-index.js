@@ -54,7 +54,7 @@ documentTitles["specification.html#getcapabilities"] = "GetCapabilities";
 index.add({
     url: "specification.html#getcapabilities",
     title: "GetCapabilities",
-    body: "### GetCapabilities ###   **Purpose**: The `GetCapabilities` request returns a reply that defines a set of Collections known to the server and identifies the properties shared by members of each set.  **Request syntax and semantics**:  No parameters other than the `request` parameter are required.  | Parameter |	Required/optional |	Description |   |  ------	| ------	| ------	|   |  request | required | the value `GetCapabilities` |   "
+    body: "### GetCapabilities ###   **Purpose**: The `GetCapabilities` request returns a reply that defines a set of Collections known to the server and identifies the properties shared by members of each set.  **Request syntax and semantics**:  No parameters other than the `request` parameter are required.    | Parameter |	Required/optional |	Description |   |  ------	| ------	| ------	|   |  request | required | the value `GetCapabilities` |     "
 });
 
 documentTitles["specification.html#to-be-specified-more-formally"] = "To be specified more formally...";
@@ -62,6 +62,62 @@ index.add({
     url: "specification.html#to-be-specified-more-formally",
     title: "To be specified more formally...",
     body: "## To be specified more formally...     2.  `GetCollectionSize`.  The request  returns the number of objects in the collection identified by the `urn` parameter. 3.   The request `GetObject` returns an XML description of the individual object identified by the `urn` parameter. 4.   `GetFirst` : returns the URN of the first object in an ordered collection 5.   `GetLast`: returns the URN of the last object in an ordered collection 6.   `GetPrev`: returns the XML description of the object preceding the submitted URN in an ordered collection.  It is an error if the collection is not ordered. 7.   `GetNext`: returns the the XML description of the object following the submitted URN in an ordered collection.  It is an error if the collection is not ordered. 8.   `GetPrevNextUrn`: returns the URNs of both the object preceding and the object following the submitted URN in an ordered collection.  If the submitted URN is the first URN in the collection, the previous URN value will be null;  if the submitted URN is the last URN in the collection, the next URN value will be null.  It is an error if the collection is not ordered. 9.   `GetObjectPlus`: returns a concatenation of the `GetObject` and `GetPrevNextUrn` requests.   If the collection is not ordered, the previous and next URN values will be null.  All requests other than `GetCapabilities` further require a parameter named `urn`.  The value of this parameter must be a valid CITE URN value, as defined in the [CITE URN specification][citeurn].  [citeurn]: http://cite-architecture.github.io/citeurn_spec/    "
+});
+
+documentTitles["specification.html#replies"] = "Replies";
+index.add({
+    url: "specification.html#replies",
+    title: "Replies",
+    body: "## Replies ##  "
+});
+
+documentTitles["specification.html#individual-replies"] = "Individual Replies";
+index.add({
+    url: "specification.html#individual-replies",
+    title: "Individual Replies",
+    body: "## Individual Replies ##   While the Relax NG schema for each request defines and can be used to enforce a number of the syntactic requirements of CITE Collection Services, there are further requirements that cannont be readily defined in a schema language.  These are specified for each request in the following sections.  "
+});
+
+documentTitles["specification.html#getcapabilities"] = "GetCapabilities";
+index.add({
+    url: "specification.html#getcapabilities",
+    title: "GetCapabilities",
+    body: "### GetCapabilities ###  The `collectionService` includes one or more `citeCollections`; it may optionally include CITE Extensions.   "
+});
+
+documentTitles["specification.html#extensions-optional"] = "Extensions (optional)";
+index.add({
+    url: "specification.html#extensions-optional",
+    title: "Extensions (optional)",
+    body: "#### Extensions (optional) ####  The optional `extensions` element has two parts:  one or more `rdfnamespace` elements, followed by one or more `extension` elements. An extension classifies an object as belonging to a particular type, identified by the extension's `rdfType` attribute.  The `rdfnamespace` element defines associations of abbreviations with full URIs.  Any abbreviation defined in this section may be used in the `rdfnamespace` attribute of an extension:  it is an error if an extension's `rdfnamespace` value uses an abbreviation not defined by an `rdfnamespace` element.  The `extension` element contains a list of one or more `request` elements.  The `name` attribute defines a request name supported by this extension.  The `extendedCitation` attribution of the `extension` element has a boolean value indicating whether, in addition to defining type-specific requests, the extension defines an extended citation scheme appended to objects references with the `@`  character.  The `abbr` and `uri` attributes define a mapping of abbreviation to full URI value.  The `abbr` value may be used to identify extensions applied to individual collections.   "
+});
+
+documentTitles["specification.html#cite-collections-required-content"] = "CITE Collections: required content";
+index.add({
+    url: "specification.html#cite-collections-required-content",
+    title: "CITE Collections: required content",
+    body: "#### CITE Collections: required content ####  Each `citeCollection` has three attributes.  The `urn` is the CITE URN identifier for the collection; the `canonicalId` and `label` attributes pair machine-actionable unique object  identifiers with human-readable labels.  The value of the `canonicalId` attribute must be the name of a property of type `citeurn`.  The value of the `label` property must be the name of a second property of any type, normally text.  The `namespaceMapping` elements defines the abbreviation for the naming authorities used in the collection's URN.     One or more `source` elements define data sources.  As of version @cc_spec_version@, the only allowed value for the `type` attribute is `file`;  the meaning of the `value` attribute is undefined, but may be used to provide access to data in local or remote file systems.  At least two `citeProperty` elements define the collection's shared properties.  One property must be of type `citeurn`, and must be named in the Collection's `canonicalId` attribute;  at least one further property of any type must be included and named in the Collection's `label` attribute.    "
+});
+
+documentTitles["specification.html#cite-collections-optional-content"] = "CITE Collections: optional content";
+index.add({
+    url: "specification.html#cite-collections-optional-content",
+    title: "CITE Collections: optional content",
+    body: "#### CITE Collections: optional content ####   Collections may optionally include a list of **extensions** that apply to this collection. The extension is identified in the `abbr` attribute of the `extendedBy` element with a value defined in the CollectionService's  `extensions` section.  A `metadata` element allows inclusion of **Dublin Core** elements for title, creators, coverage, description and rights.  A collection is classified as an **ordered collection** (and therefore capable of responding to the requests applying specifically to ordering of objects) by the `orderedBy` element.  The value of its `property` attribute must be the name of a property in the collection's list with type `number`.        "
+});
+
+documentTitles["specification.html#reply-schemas"] = "Reply schemas";
+index.add({
+    url: "specification.html#reply-schemas",
+    title: "Reply schemas",
+    body: "### Reply schemas ###  The release version of this specification will be packaged together with Relax NG schemas for each reply.  The current drafts can be found in the `cite` library's github repository at &lt;https://github.com/cite-architecture/cite&gt;.   "
+});
+
+documentTitles["specification.html#links"] = "Links";
+index.add({
+    url: "specification.html#links",
+    title: "Links",
+    body: "## Links ##  "
 });
 
 
